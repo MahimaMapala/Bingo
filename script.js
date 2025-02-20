@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const winPopup = document.getElementById("win-popup");
     const closePopupBtn = document.getElementById("close-popup");
     let gameStarted = false;
+    let previousSelectedNumber = null;
+
 
     function createNumberElements() {
         let numberSelection = document.getElementById("numbers");
@@ -60,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function dragStart(event) {
         if (gameStarted) return;
+        if (previousSelectedNumber) removeSelected();
         event.dataTransfer.setData("text", event.target.textContent);
     }
 
@@ -89,11 +92,30 @@ function allowDrop(event) {
     event.preventDefault();
 }
 
-// Touch Start (For Mobile)
-function touchStart(event) {
-    selectedNumber = event.target;
-    selectedNumber.classList.add("picked-up"); 
+// Variable to track the previously selected element
+
+function removeSelected(){
+    previousSelectedNumber.classList.remove("picked-up");
+    previousSelectedNumber = null;
+
 }
+
+
+function touchStart(event) {
+    // If there was a previously selected element, reset it
+    if (previousSelectedNumber) removeSelected();
+
+
+    // Set the newly selected element
+    selectedNumber = event.target;
+
+    // Add the 'picked-up' class to the new selected element
+    selectedNumber.classList.add("picked-up");
+
+    // Update the reference to the current selected element
+    previousSelectedNumber = selectedNumber;
+}
+
 
 // Touch Move (Prevent Default Scroll)
 function touchMove(event) {
@@ -117,13 +139,18 @@ function touchEnd(event) {
         targetElement.textContent = selectedNumber.textContent;
         selectedNumber.classList.remove("picked-up");
         selectedNumber.remove(); // Remove from selection
-        selectedNumber = null;        
+        selectedNumber = null;
+        previousSelectedNumber = null;
         checkBoardFull();
     }
 }
 
     function removeNumber(event) {
         if (gameStarted) return;
+
+        if (previousSelectedNumber) { removeSelected();
+        }
+
         let removedNumber = event.target.textContent;
         if (removedNumber) {
             event.target.textContent = "";
