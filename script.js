@@ -91,6 +91,7 @@ function allowDrop(event) {
 
 // Touch Start (For Mobile)
 function touchStart(event) {
+    selectedNumber.classList.remove("picked-up");
     selectedNumber = event.target;
     selectedNumber.classList.add("picked-up"); 
 }

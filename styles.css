@@ -240,7 +240,7 @@ button:hover {
 
 .picked-up {
     transform: scale(1.4); /* Bigger increase */
-    transition: transform 0.2s ease-in-out; /* Faster transition */
+    transition: transform 0.1s ease-in-out; /* Faster transition */
     background-color: #ffcc00; /* Bright highlight */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* More pronounced shadow */
 }
