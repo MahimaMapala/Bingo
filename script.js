@@ -9,11 +9,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const closePopupBtn = document.getElementById("close-popup");
     let gameStarted = false;
     let previousSelectedNumber = null;
+    let remainingNumbers = Array.from({ length: 25 }, (_, i) => i + 1);
 
 
     function createNumberElements() {
         let numberSelection = document.getElementById("numbers");
-        numberSelection.innerHTML = ""; // Clear previous numbers
+        numberSelection.innerHTML = "";
      //   winPopup.style.display = "flex"; // Show pop-up
 
         for (let i = 1; i <= 25; i++) {
@@ -47,6 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
             // Clicking to mark numbers in game phase
             cell.addEventListener("click", markNumber);
+
+            cell.addEventListener("click", insertNextNumber); // Inside your createBoard function
 
 
             cell.addEventListener("dblclick", removeNumber);
@@ -149,12 +152,14 @@ function touchEnd(event) {
     function removeNumber(event) {
         if (gameStarted) return;
 
-        if (previousSelectedNumber) { removeSelected();
-        }
+        if (previousSelectedNumber) removeSelected();
+        
 
         let removedNumber = event.target.textContent;
         if (removedNumber) {
             event.target.textContent = "";
+            remainingNumbers.push(parseInt(removedNumber));
+            remainingNumbers.sort((a, b) => a - b);
             createNumberElement(removedNumber);
         }
         autoFillBtn.style.display = 'inline-block';
@@ -215,6 +220,7 @@ function touchEnd(event) {
         numberDiv.draggable = true;
         numberDiv.addEventListener("dragstart", dragStart);
         numberDiv.addEventListener("touchstart", touchStart);
+        
         numbersPanel.appendChild(numberDiv);
     }
 
@@ -228,6 +234,33 @@ function touchEnd(event) {
         numbersPanel.style.display = allFilled ? "none" : "flex";
 
     }
+
+    function insertNextNumber(event) {
+        if (gameStarted) return; 
+        if (previousSelectedNumber) removeSelected();
+        let cell = event.target;
+        if (cell.textContent !== "") return; // If the cell is not empty, do nothing
+    
+        // Get the next number from remaining numbers that is NOT already in the board
+        let nextNumber = remainingNumbers.find(num => !Array.from(bingoBoard.children).some(cell => cell.textContent == num));
+    
+        if (nextNumber !== undefined) {
+            cell.textContent = nextNumber; // Insert the number into the cell
+            remainingNumbers = remainingNumbers.filter(num => num !== nextNumber); // Remove it from the remaining numbers
+            updateRemainingNumbers(nextNumber); // Remove it from the panel
+        }
+        checkBoardFull();
+    }
+    
+
+    function updateRemainingNumbers(number) {
+        const numberDiv = Array.from(numbersPanel.children).find(el => el.textContent == number);
+        if (numberDiv) {
+            numberDiv.remove(); // Remove the number from the panel
+        }
+    }
+    
+    
         
 
     autoFillBtn.addEventListener("click", () => {
