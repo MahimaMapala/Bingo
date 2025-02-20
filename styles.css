@@ -158,8 +158,10 @@ button:hover {
 
 
 .bingo-labels div {
-    width: 40px;
-    height: 40px;
+    width: 10vw;  /* 80% of the parent container's width */
+    height: 10vw;
+    max-width: 50px;  /* Limit the maximum width */
+    max-height: 50px; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -168,6 +170,9 @@ button:hover {
     background: rgb(152, 123, 123);
     color: #f4f4f4;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .bingo-labels div.highlight {
@@ -176,47 +181,74 @@ button:hover {
 }
 
 /* Winning Popup */
-.popup {
-    display: none;
+/* Main popup container */
+#win-popup {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 280px; /* Smaller for mobile */
-    background: rgba(0, 0, 0, 0.5);
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 40%;
+    width: 80%; /* Default width for better scaling */
+    z-index: 1000;
+    display: none; /* Initially hidden */
     justify-content: center;
+    white-space: nowrap;
+}
+
+/* Popup content */
+.popup-content {
+    display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
-.popup-content {
-    background: white;
-    padding: 12px;
-    text-align: center;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    font-size: 14px;
-}
-
+/* Heading inside popup */
 .popup-content h2 {
-    font-size: 1.4rem;
-    margin-bottom: 10px;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    white-space: nowrap;
 }
 
-.popup-content button {
-    padding: 6px 10px;
-    background: #28a745;
-    font-size: 12px;
-    border-radius: 5px;
+#close-popup{
+    margin: 5px;
+    padding: 12px 24px;
+    width: 80%;
+    max-width: 250px;
+    height: 45px;
+    border: none;
+    background: #238192;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    text-align: center;
+    white-space: nowrap;
+    min-width: 120px;
+    transition: background 0.3s ease;
 }
 
-.popup-content button:hover {
+
+#close-popup:hover {
     background: #218838;
 }
 
+
+.picked-up {
+    transform: scale(1.4); /* Bigger increase */
+    transition: transform 0.2s ease-in-out; /* Faster transition */
+    background-color: #ffcc00; /* Bright highlight */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* More pronounced shadow */
+}
+
+
 /* Responsive Design */
 @media (max-width: 600px) {
-    .container {
+    .board-container {
         max-width: 95%;
         padding: 10px;
     }
@@ -230,14 +262,10 @@ button:hover {
     }
 
     .bingo-labels {
-        gap: 5px;
+        gap: 3px;
     }
 
-    .bingo-labels div {
-        width: 35px;
-        height: 35px;
-        font-size: 14px;
-    }
+
 
     #numbers div {
         width: 30px;
@@ -250,18 +278,23 @@ button:hover {
         max-width: 160px;
         font-size: 1rem;
     }
+    #win-popup {
+        width: 60%;
+        padding: 30px;
+        font-size: 0.9rem;
 
-    .popup-content {
-        width: 250px;
-        font-size: 14px;
     }
 
     .popup-content h2 {
-        font-size: 16px;
+        font-size: 1rem;
+        white-space: normal; /* Allows text to wrap */
     }
 
-    .popup-content button {
-        padding: 6px 10px;
-        font-size: 12px;
+    #close-popup {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+        max-width: 180px;
+        height: 35px;
     }
+   
 }

@@ -12,19 +12,16 @@ document.addEventListener("DOMContentLoaded", () => {
     function createNumberElements() {
         let numberSelection = document.getElementById("numbers");
         numberSelection.innerHTML = ""; // Clear previous numbers
-    
+     //   winPopup.style.display = "flex"; // Show pop-up
+
         for (let i = 1; i <= 25; i++) {
             let number = document.createElement("div");
             number.textContent = i;
             number.draggable = true;
             number.addEventListener("dragstart", dragStart);
-            
-            number.addEventListener("touchstart", touchStart);
-        number.addEventListener("touchmove", touchMove);
-        number.addEventListener("touchend", touchEnd);
-            
-        numberSelection.appendChild(number);
-        }
+            number.addEventListener("touchstart", touchStart);  
+            numberSelection.appendChild(number);
+            }
     }
     
 
@@ -34,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
         bingoBoard.innerHTML = ""; // Clear existing board
     
         for (let i = 0; i < 25; i++) {
+            checkBoardFull(); 
             const cell = document.createElement("div");
             cell.classList.add("board-cell");
     
@@ -47,6 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
             // Clicking to mark numbers in game phase
             cell.addEventListener("click", markNumber);
+
+
             cell.addEventListener("dblclick", removeNumber);
             cell.addEventListener("touchend", (event) => simulateDoubleClick(event, removeNumber)); // Mobile Double-Tap
             // Allow removing before game starts
@@ -79,7 +79,8 @@ document.addEventListener("DOMContentLoaded", () => {
             let draggedElement = Array.from(numbersPanel.children).find(el => el.textContent === draggedNumber);
             if (draggedElement) draggedElement.remove();
         }
-
+        selectedNumber.remove(); // Remove from selection
+        selectedNumber = null;
         checkBoardFull();
     }
 
@@ -91,6 +92,7 @@ function allowDrop(event) {
 // Touch Start (For Mobile)
 function touchStart(event) {
     selectedNumber = event.target;
+    selectedNumber.classList.add("picked-up"); 
 }
 
 // Touch Move (Prevent Default Scroll)
@@ -113,7 +115,10 @@ function touchEnd(event) {
 
     if (targetElement && targetElement.textContent === "") {
         targetElement.textContent = selectedNumber.textContent;
+        selectedNumber.classList.remove("picked-up");
         selectedNumber.remove(); // Remove from selection
+        selectedNumber = null;        
+        checkBoardFull();
     }
 }
 
@@ -125,7 +130,6 @@ function touchEnd(event) {
             createNumberElement(removedNumber);
         }
         autoFillBtn.style.display = 'inline-block';
-
         checkBoardFull();
     }
 
@@ -182,8 +186,10 @@ function touchEnd(event) {
         numberDiv.textContent = number;
         numberDiv.draggable = true;
         numberDiv.addEventListener("dragstart", dragStart);
+        numberDiv.addEventListener("touchstart", touchStart);
         numbersPanel.appendChild(numberDiv);
     }
+
 
     function checkBoardFull() {
         let allFilled = Array.from(bingoBoard.children).every(cell => cell.textContent !== "");
