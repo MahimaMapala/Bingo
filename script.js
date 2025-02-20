@@ -97,6 +97,7 @@ function allowDrop(event) {
 function removeSelected(){
     previousSelectedNumber.classList.remove("picked-up");
     previousSelectedNumber = null;
+    selectedNumber = null;
 
 }
 
