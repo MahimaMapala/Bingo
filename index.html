@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Bingo Game</h1>
+
+        <div id="selection-panel" class="panel">
+            <p id="game-status"></p> <!-- This will show "Game Started!" -->
+            <div id="numbers"></div>
+            <button id="auto-fill">Auto Fill</button>
+            <button id="reset" onclick="location.reload();">Reset</button>
+
+
+        </div>
+
+        <div class="board-container">
+            <div class="bingo-labels">
+                <div>B</div>
+                <div>I</div>
+                <div>N</div>
+                <div>G</div>
+                <div>O</div>
+            </div>
+            <div id="bingo-board" class="board"></div>
+        </div>
+
+
+        <!-- Centered Start Button -->
+        <div class="start-button-container">
+            <button id="start-game">Start Game</button>
+        </div>
+        
+    </div>
+
+    <!-- Winning Popup -->
+    <div id="win-popup" class="popup">
+        <div class="popup-content">
+            <h2>🎉 BINGO! You Win! 🎉</h2>
+            <button id="close-popup">Close</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

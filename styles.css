@@ -1,0 +1,267 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 90%;
+    margin: auto;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+h1 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+/* Number Selection */
+#numbers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    padding: 10px;
+}
+
+#numbers div {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    background: #708b9d;
+    color: white;
+    border-radius: 5px;
+    cursor: grab;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#numbers div:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+}
+
+/* Bingo Board */
+.board-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 300px;
+}
+
+.board div {
+    aspect-ratio: 1; /* Ensures square shape always */
+    background: hsl(194, 100%, 97%);
+    border: 1px solid #17a6ce;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1rem;
+    color: #17a6ce;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.marked {
+    background-color: rgb(10, 125, 179) !important;
+    color: white !important;
+}
+
+/* Buttons */
+button {
+    margin: 5px;
+    padding: 10px 20px;
+    width: 80%;
+    max-width: 200px;
+    height: 40px;
+    border: none;
+    background: #238192;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 1rem;
+    text-align: center;
+    white-space: nowrap;
+    min-width: 120px;
+}
+
+button:hover {
+    background: #67c5bd;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Start Button */
+.start-button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#start-game {
+    width: 150px;
+    height: 40px;
+    font-size: 1rem;
+    background: gray;
+    cursor: not-allowed;
+}
+
+#start-game.active {
+    background: #28a745;
+    cursor: pointer;
+}
+
+/* Bingo Labels */
+.bingo-labels {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 15px; /* Add space above BINGO labels */
+}
+
+
+.bingo-labels div {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    border: 2px solid white;
+    background: rgb(152, 123, 123);
+    color: #f4f4f4;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.bingo-labels div.highlight {
+    background: rgb(0, 125, 0);
+    color: white;
+}
+
+/* Winning Popup */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 280px; /* Smaller for mobile */
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background: white;
+    padding: 12px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    font-size: 14px;
+}
+
+.popup-content h2 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.popup-content button {
+    padding: 6px 10px;
+    background: #28a745;
+    font-size: 12px;
+    border-radius: 5px;
+}
+
+.popup-content button:hover {
+    background: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .container {
+        max-width: 95%;
+        padding: 10px;
+    }
+
+    .board {
+        max-width: 220px;
+    }
+
+    .board div {
+        font-size: 14px;
+    }
+
+    .bingo-labels {
+        gap: 5px;
+    }
+
+    .bingo-labels div {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+
+    #numbers div {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+
+    button {
+        width: 30%;
+        max-width: 160px;
+        font-size: 1rem;
+    }
+
+    .popup-content {
+        width: 250px;
+        font-size: 14px;
+    }
+
+    .popup-content h2 {
+        font-size: 16px;
+    }
+
+    .popup-content button {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
