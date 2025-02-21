@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const gameStatus = document.getElementById("game-status");
     const winPopup = document.getElementById("win-popup");
     const closePopupBtn = document.getElementById("close-popup");
-    let gameStarted = false;
+    let gameStarted = 'No';
     let previousSelectedNumber = null;
     let remainingNumbers = Array.from({ length: 25 }, (_, i) => i + 1);
 
@@ -38,6 +38,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const cell = document.createElement("div");
             cell.classList.add("board-cell");
     
+
+            cell.setAttribute("draggable", "false");
+            cell.addEventListener("dragstart", (event) => event.preventDefault()); // Prevent mouse dragging
+            cell.addEventListener("touchstart", (event) => event.preventDefault()); // Prevent touch dragging
+
+
             // Allow drop for empty cells only
             cell.addEventListener("dragover", dragOver);
             cell.addEventListener("drop", drop);
@@ -56,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
             cell.addEventListener("touchend", (event) => simulateDoubleClick(event, removeNumber)); // Mobile Double-Tap
             // Allow removing before game starts
     
+            
             bingoBoard.appendChild(cell);
         }
         
@@ -64,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
 
     function dragStart(event) {
-        if (gameStarted) return;
+        if (gameStarted !='No') return;
         if (previousSelectedNumber) removeSelected();
         event.dataTransfer.setData("text", event.target.textContent);
     }
@@ -74,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function drop(event) {
-        if (gameStarted) return;
+        if (gameStarted !='No') return;
         let draggedNumber = event.dataTransfer.getData("text");
         let targetCell = event.target;
 
@@ -84,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Remove the dragged number from the selection panel
             let draggedElement = Array.from(numbersPanel.children).find(el => el.textContent === draggedNumber);
             if (draggedElement) draggedElement.remove();
+            checkBoardFull();
         }
         selectedNumber.remove(); // Remove from selection
         selectedNumber = null;
@@ -150,7 +158,7 @@ function touchEnd(event) {
 }
 
     function removeNumber(event) {
-        if (gameStarted) return;
+        if (gameStarted!='No') return;
 
         if (previousSelectedNumber) removeSelected();
         
@@ -167,7 +175,7 @@ function touchEnd(event) {
     }
 
     function markNumber(event) {
-        if (!gameStarted) return; // Ensure game has started
+        if (gameStarted!='Yes') return; // Ensure game has started
     
         let cell = event.target;
     
@@ -207,7 +215,8 @@ function touchEnd(event) {
         }
         if (completedLines >= 5) {
             setTimeout(() => {
-                winPopup.style.display = "flex"; // Show pop-up
+                winPopup.style.display = "flex"; 
+                updateGameStatus("🎉BINGO!🎉 You Win! Game Finished!");// Show pop-up
             }, 200);
         }
     }
@@ -236,7 +245,7 @@ function touchEnd(event) {
     }
 
     function insertNextNumber(event) {
-        if (gameStarted) return; 
+        if (gameStarted!='No' ) return; 
         if (previousSelectedNumber) removeSelected();
         let cell = event.target;
         if (cell.textContent !== "") return; // If the cell is not empty, do nothing
@@ -264,7 +273,7 @@ function touchEnd(event) {
         
 
     autoFillBtn.addEventListener("click", () => {
-        if (gameStarted) return;
+        if (gameStarted!='No') return;
         let allNumbers = Array.from({ length: 25 }, (_, i) => i + 1).sort(() => Math.random() - 0.5);
         let cells = bingoBoard.children;
         numbersPanel.innerHTML = "";
@@ -278,7 +287,7 @@ function touchEnd(event) {
 
 
     startGameBtn.addEventListener("click", () => {
-        gameStarted = true;
+        gameStarted = 'Yes';
         autoFillBtn.style.display = "none";
         //resetBtn.style.display = "none"; // Hide reset button after game starts
         updateGameStatus("Game Started! Mark Your Numbers!");
@@ -288,7 +297,8 @@ function touchEnd(event) {
     // Close pop-up and reset the game
     closePopupBtn.addEventListener("click", () => {
         winPopup.style.display = "none"; // Hide pop-up
-        resetGame(); // Reset the game
+        gameStarted = 'End';
+        //resetGame(); // Reset the game
     });
 
     createNumberElements();
