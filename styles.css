@@ -72,6 +72,7 @@ h1 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 300px;
+    pointer-events: none;
 }
 
 .board div {
@@ -89,6 +90,7 @@ h1 {
     box-sizing: border-box;
     overflow: hidden;
     white-space: nowrap;
+    pointer-events: auto;
 }
 
 .marked {
