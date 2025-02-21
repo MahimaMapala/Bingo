@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             cell.setAttribute("draggable", "false");
             cell.addEventListener("dragstart", (event) => event.preventDefault()); // Prevent mouse dragging
-            cell.addEventListener("touchstart", (event) => event.preventDefault()); // Prevent touch dragging
+            //cell.addEventListener("touchstart", (event) => event.preventDefault()); // Prevent touch dragging
 
 
             // Allow drop for empty cells only
