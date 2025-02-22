@@ -77,8 +77,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function dragOver(event) {
-        event.preventDefault();
+        if (gameStarted != 'No') return;
+    // Prevent dragging over invalid areas or elements outside the board
+    if (!event.target.classList.contains('board-cell')) {
+        event.preventDefault();  // Prevent drag if it's not over a board cell
     }
+}
 
     function drop(event) {
         if (gameStarted !='No') return;
